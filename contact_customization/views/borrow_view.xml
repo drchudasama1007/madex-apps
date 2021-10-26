@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Borrowings Form View -->
+        <record id="borrow_borrow_form_view" model="ir.ui.view">
+            <field name="name">borrow.borrow.form.view</field>
+            <field name="model">borrow.borrow</field>
+            <field name="arch" type="xml">
+                <form string="Borrowings">
+                    <header>
+                        <field name="id" invisible="1"/>
+                        <button string="Create Purchase Order" type="object" name="create_purchase_order" class="btn btn-primary"
+                                attrs="{'invisible':[('id','=',False)]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="financing_id"/>
+                                <field name="responsive_id"/>
+                                <field name="borrow_type_id"/>
+                                <field name="contact"/>
+                                <field name="commencement_date"/>
+                                <field name="duration"/>
+                            </group>
+                            <group>
+                                <field name="date_first_payment"/>
+                                <field name="date_end_contract"/>
+                                <field name="due_days"/>
+                                <field name="equipment_cost"/>
+                                <field name="advance_payment"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="calculation_type" widget="radio"/>
+                                <field name="interest"/>
+                                <field name="monthly_payment"/>
+                            </group>
+                            <group string="Accounting">
+                                <field name="financing_equipment_account_id"/>
+                                <field name="financing_interest_account_id"/>
+                            </group>
+                        </group>
+                        <group>
+                             <notebook>
+                                <page name="purchase_order" string="Purchase Order">
+                                    <field name="purchase_ids">
+                                        <tree>
+                                            <field name="name" sting="Purchase Order"/>
+                                            <field name="partner_id"/>
+                                            <field name="date_order" widget="date"/>
+                                            <field name="no_quantity"/>
+                                            <field name="amount_total"/>
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                             </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Borrowings Tree View -->
+        <record id="borrow_borrow_tree_view" model="ir.ui.view">
+            <field name="name">borrow.borrow.tree.view</field>
+            <field name="model">borrow.borrow</field>
+            <field name="arch" type="xml">
+                <tree string="Borrowings">
+                   <field name="name"/>
+                    <field name="financing_id"/>
+                    <field name="responsive_id"/>
+                    <field name="borrow_type_id"/>
+                    <field name="contact"/>
+                    <field name="commencement_date"/>
+                    <field name="duration"/>
+                    <field name="calculation_type" widget="radio"/>
+                    <field name="interest"/>
+                    <field name="monthly_payment"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Borrowings Action -->
+        <record id="borrow_borrow_act_window" model="ir.actions.act_window">
+            <field name="name">Borrowings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">borrow.borrow</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no Borrowings click here to add new Borrowings.
+                </p>
+            </field>
+        </record>
+
+        <!-- Borrowings Menu -->
+        <menuitem name="Borrowings" id="borrowings_main_menu"/>
+        <menuitem name="Borrowings" id="borrowings_sub_menu" parent="borrowings_main_menu" action="borrow_borrow_act_window" sequence="1"/>
+
+         <!-- Borrow Type Form View -->
+        <record id="borrow_type_form_view" model="ir.ui.view">
+            <field name="name">borrow.type.form.view</field>
+            <field name="model">borrow.type</field>
+            <field name="arch" type="xml">
+                <form string="Borrow Type">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Borrow Type Tree View -->
+        <record id="borrow_type_tree_view" model="ir.ui.view">
+            <field name="name">borrow.type.tree.view</field>
+            <field name="model">borrow.type</field>
+            <field name="arch" type="xml">
+                <tree string="Borrow Type">
+                   <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Borrow Type Action -->
+        <record id="borrow_type_act_window" model="ir.actions.act_window">
+            <field name="name">Borrow Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">borrow.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no Borrow Type click here to add new Borrow Type.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Configuration" id="configuration_sub_menu" parent="borrowings_main_menu" sequence="12"/>
+        <menuitem name="Borrow Type" id="borrowing_type_sub_menu" parent="configuration_sub_menu" action="borrow_type_act_window" sequence="1"/>
+
+        <!-- Purchase Order Form View Inherit -->
+        <record id="purchase_order_form_view" model="ir.ui.view">
+            <field name="name">purchase.order.form.view</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_ref']" position="after">
+                    <field name="borrow_id"/>
+                    <field name="no_quantity" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

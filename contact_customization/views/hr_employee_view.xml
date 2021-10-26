@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="hr_employee_medax_custom_form_view">
+        <field name="name">hr_employee.medax.custom.form.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//page[@name='hr_settings']"  position="after">
+                <page name="costs" string="Costs">
+                    <group>
+                        <group>
+                            <field name="aeroplan_tikit"/>
+                            <field name="visa_cost"/>
+                            <field name="monthly_rate"/>
+                            <field name="utility_expenses"/>
+                            <field name="cost_phone"/>
+                            <field name="transportation_costs"/>
+                            <field name="working_hour"/>
+                            <field name="worker_rate"/>
+                        </group>
+                        <group></group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

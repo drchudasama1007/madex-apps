@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ir_country_code,ir_country_code,model_country_code,,1,1,1,1
+access_ir_borrow_type,ir_borrow_type,model_borrow_type,,1,1,1,1
+access_ir_borrow_borrow,ir_borrow_borrow,model_borrow_borrow,,1,1,1,1
+access_comapny_type,company.type,model_company_type,,1,1,1,1
+access_product_brand,access_product_brand,model_product_brand,,1,1,1,1

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="purchase_order_report_medax_template">
+        <t t-call="madex_custom_reports.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+            <div class="page">
+                <div class="oe_structure"/>
+<!--                <h2>Purchase Order</h2>-->
+                 <div style="float: left;width: 100%;padding-bottom:18px">
+                    <div style="float: left;width: 66%;">
+                        <h2>PURCHASE ORDER</h2>
+<!--                        <h2 t-if="o.state == 'draft'">Request for Quotation #<span t-field="o.name"/></h2>-->
+<!--                        <h2 t-if="o.state in ['sent', 'to approve']">Purchase Order #<span t-field="o.name"/></h2>-->
+<!--                        <h2 t-if="o.state in ['purchase', 'done']">Purchase Order #<span t-field="o.name"/></h2>-->
+<!--                        <h2 t-if="o.state == 'cancel'">Cancelled Purchase Order #<span t-field="o.name"/></h2>-->
+                    </div>
+                    <div style="float: left;width: 34%;padding-top:8px">
+                        <!--                            <div class="col-4" name="right_box">-->
+                        <strong>Order Number:<span class="m-0" t-field="o.name"/></strong><br/>
+                        <strong>Order Date:<span class="m-0" t-field="o.date_order" t-options='{"widget": "date"}'/></strong><br/>
+                        <strong>Delivery Date:<span class="m-0" t-field="o.date_planned" t-options='{"widget": "date"}'/></strong>
+                        <!--                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/>-->
+                        <!--                            </div>-->
+                    </div>
+                </div>
+            </div>
+            <table style="width: 100%;">
+               <tr>
+                    <td style="width: 33%;">
+                        <strong>Vendor:</strong><br/>
+                        <div>
+                                <span><t t-esc="o.partner_id.name"/><br/></span>
+                                <span t-if="o.partner_id.street"><t t-esc="o.partner_id.street"/><br/></span>
+                                <span t-if="o.partner_id.street2"><t t-esc="o.partner_id.street2"/><br/></span>
+                                <span t-if="o.partner_id.phone">Tel.: <t t-esc="o.partner_id.phone"/><br/></span>
+                                <span t-if="o.partner_id.zip">P.O.Box: <t t-esc="o.partner_id.zip"/> <span t-if="o.partner_id.city">, <t t-esc="o.partner_id.city"/></span><br/></span>
+                                <span><span t-if="o.partner_id.state_id"><t t-esc="o.partner_id.state_id.name"/> ,</span> <span t-if="o.partner_id.country_id"> <t t-esc="o.partner_id.country_id.name"/></span><br/></span>
+                            </div>
+<!--                        <div t-field="o.partner_id"-->
+<!--                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />-->
+                    </td>
+                    <td style="width: 33%;">
+                        <strong>Ship To:</strong><br/>
+                        <div>
+                            MEDAX l.l.c.<br/>
+                            PO BOX 37159, B Ring Road<br/>
+                            DOHA, QATAR<br/>
+                            PHONE +974 4038 0042
+                        </div>
+
+                    </td>
+                    <td style="width: 33%;">
+                        <table>
+                            <tr>
+                                <td><strong>D.D.P.:</strong></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ship Via:</strong></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Payment Terms:</strong></td>
+                                <td><span t-field="o.payment_term_id.name"/></td>
+                            </tr>
+<!--                            <tr>-->
+<!--                                <td>Supplier A/C No.:</td>-->
+<!--                                <td></td>-->
+<!--                            </tr>-->
+                        </table>
+                    </td>
+                </tr>
+<!--                <tr>-->
+<!--                    <td style="width: 60%;">-->
+<!--                            <strong>To:</strong>-->
+<!--                            <br/>-->
+<!--                            <div>-->
+<!--                                <span><t t-esc="o.partner_id.name"/><br/></span>-->
+<!--                                <span t-if="o.partner_id.street"><t t-esc="o.partner_id.street"/><br/></span>-->
+<!--                                <span t-if="o.partner_id.street2"><t t-esc="o.partner_id.street2"/><br/></span>-->
+<!--                                <span t-if="o.partner_id.phone">Tel.: <t t-esc="o.partner_id.phone"/><br/></span>-->
+<!--                                <span t-if="o.partner_id.zip">P.O.Box: <t t-esc="o.partner_id.zip"/> <span t-if="o.partner_id.city">, <t t-esc="o.partner_id.city"/></span><br/></span>-->
+<!--                                <span><span t-if="o.partner_id.state_id"><t t-esc="o.partner_id.state_id.name"/> ,</span> <span t-if="o.partner_id.country_id"> <t t-esc="o.partner_id.country_id.name"/></span><br/></span>-->
+<!--                            </div>-->
+<!--&lt;!&ndash;                            <div t-field="doc.partner_id"&ndash;&gt;-->
+<!--&lt;!&ndash;                                 t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>&ndash;&gt;-->
+<!--                        </td>-->
+<!--                    <td style="width: 40%;">-->
+<!--                            <strong>From:</strong>-->
+<!--                            <br/>-->
+<!--                            <div>-->
+<!--                                Mourad Zoulamian-->
+<!--                                <br/>-->
+<!--                                MEDAX Managing Director-->
+<!--                                <br/>-->
+<!--                                Tel.: +974 4038 0042 | 5526 7116-->
+<!--                                <br/>-->
+<!--                                P.O.Box: 37159, Muntazah-->
+<!--                                <br/>-->
+<!--                                Doha, State of Qatar-->
+<!--                            </div>-->
+<!--                        </td>-->
+<!--&lt;!&ndash;                    <td style="width: 40%;">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <table>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td>F.O.B.:</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td>Ship Via:</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td>Payment Terms:</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td><span t-field="o.payment_term_id.name"/></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td>Supplier A/C No.:</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </table>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </td>&ndash;&gt;-->
+<!--                </tr>-->
+            </table><br/>
+
+
+            <table class="table table-sm o_main_table table-bordered">
+                <t t-set="count" t-value="1"/>
+                <thead>
+                    <tr>
+                        <th class="text-center"></th>
+                        <th class="text-center"><strong>Description</strong></th>
+                        <th class="text-center"><strong>Unit</strong></th>
+                         <th class="text-center"><strong>Qty</strong></th>
+
+<!--                        <th class="text-center"><strong>Date Req.</strong></th>-->
+
+                        <th class="text-center"><strong>U/P QAR</strong></th>
+                        <th class="text-center"><strong>Taxes</strong></th>
+                        <th class="text-center"><strong>Amount</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="o.order_line" t-as="line">
+                        <td>
+                            <t t-esc="count"/>
+                        </td>
+                        <td>
+                            <span t-field="line.name"/>
+                        </td>
+                        <td class="text-center">
+                                        <span t-field="line.product_uom"  groups="uom.group_uom"/>
+                                    </td>
+                        <td class="text-center">
+                            <span t-field="line.product_qty"/>
+<!--                            <span t-field="line.product_uom.name" groups="uom.group_uom"/>-->
+                        </td>
+                        <td class="text-center">
+                            <span t-field="line.price_unit"/>
+                        </td>
+                        <td>
+                            <span t-esc="', '.join(map(lambda x: x.name, line.taxes_id))"/>
+                        </td>
+<!--                        <td class="text-center">-->
+<!--                            <span t-field="line.date_planned"/>-->
+<!--                        </td>-->
+
+
+                        <td class="text-center">
+                            <span t-field="line.price_subtotal"
+                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                        </td>
+                        <t t-set="count" t-value="count+1"/>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div id="total" class="row justify-content-end">
+                <div class="col-4">
+                    <table class="table table-sm table-bordered">
+<!--                        <tr class="border-black">-->
+<!--                            <td><strong>Subtotal</strong></td>-->
+<!--                            <td class="text-right">-->
+<!--                                <span t-field="o.amount_untaxed"-->
+<!--                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>Taxes</td>-->
+<!--                            <td class="text-right">-->
+<!--                                <span t-field="o.amount_tax"-->
+<!--                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+                        <tr class="" style="background:#F5F5F5">
+                            <td><strong>Total Amount</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_total"
+                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div><br/>
+
+
+<!--                <div>-->
+<!--                                        <span><strong>Total Amount in Words:<span t-field="o.num_word"/></strong></span><br/><br/>-->
+<!--                </div>-->
+
+
+            <table class="table table-sm border-0" style="width: 100%;">
+                <tr style="background:#F5F5F5">
+                    <td><strong>Requisition</strong></td>
+                    <td><strong>Outlet</strong></td>
+                    <td><strong>Outlet Name</strong></td>
+                    <td><strong>Final Approver</strong></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Mourad Zoulamian</td>
+                </tr>
+                <tr>
+                    <td><strong>PO Comments:</strong></td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td><strong>Ref:</strong></td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td style="background:#F5F5F5"><strong>Generated On:</strong></td>
+                    <td colspan="3"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%m-%d-%Y %H:%M:%S')"/></td>
+                </tr>
+            </table>
+        </t>
+    </template>
+
+    <template id="purchase.report_purchaseorder">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="madex_custom_reports.purchase_order_report_medax_template" t-lang="o.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="purchase.report_purchasequotation">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="madex_custom_reports.purchase_order_report_medax_template" t-lang="o.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+
+<!--    <template id="purchase_order_report_template" inherit_id="purchase.report_purchasequotation_document">-->
+<!--        <xpath expr="//t[@t-call='web.external_layout']" position="attributes">-->
+<!--            <attribute name="t-call">madex_custom_reports.external_layout</attribute>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+</odoo>

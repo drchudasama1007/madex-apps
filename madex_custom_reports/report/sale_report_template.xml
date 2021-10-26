@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sale_report_medax_template">
+        <t t-call="madex_custom_reports.external_layout">
+            <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+            <div class="page">
+                <div class="oe_structure"/>
+                <div style="float: left;width: 100%;padding-bottom:18px">
+                    <div style="float: left;width: 60%;">
+                        <h2>
+                            <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
+                                <span t-if="doc.state not in ['draft','sent']">Order #</span>
+                                <span t-if="doc.state in ['draft','sent']">Quotation #</span>
+                            </t>
+                            <t t-if="env.context.get('proforma', False) or is_pro_forma">
+                                <span>Pro-Forma Invoice #</span>
+                            </t>
+                            <span t-field="doc.name"/>
+                        </h2>
+                    </div>
+                    <div style="float: left;width: 40%;padding-top:8px">
+                        <!--                            <div class="col-4" name="right_box">-->
+                        <strong>Date:
+                            <span class="m-0" t-field="doc.date_order" t-options='{"widget": "date"}'/>
+                        </strong>
+                        <!--                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/>-->
+                        <!--                            </div>-->
+                    </div>
+                </div>
+                <!-- <h2>
+                     <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
+                         <span t-if="doc.state not in ['draft','sent']">Order # </span>
+                         <span t-if="doc.state in ['draft','sent']">Quotation # </span>
+                     </t>
+                     <t t-if="env.context.get('proforma', False) or is_pro_forma">
+                         <span>Pro-Forma Invoice # </span>
+                     </t>
+                     <span t-field="doc.name"/>
+                 </h2>-->
+
+                <table style="width: 100%;">
+                    <!--                    <tr style="height: 50px;">-->
+                    <!--                        <td style="width: 60%;"></td>-->
+                    <!--                        <td style="width: 40%;">-->
+                    <!--                            <strong>Date: <span class="m-0" t-field="doc.date_order" t-options='{"widget": "date"}'/></strong>-->
+                    <!--                        </td>-->
+                    <!--                    </tr>-->
+                    <tr>
+                        <td style="width: 60%;">
+                            <strong>To:</strong>
+                            <br/>
+                            <div>
+                                <span><t t-esc="doc.partner_id.name"/><br/></span>
+                                <span t-if="doc.partner_id.street"><t t-esc="doc.partner_id.street"/><br/></span>
+                                <span t-if="doc.partner_id.street2"><t t-esc="doc.partner_id.street2"/><br/></span>
+                                <span t-if="doc.partner_id.phone">Tel.: <t t-esc="doc.partner_id.phone"/><br/></span>
+                                <span t-if="doc.partner_id.zip">P.O.Box: <t t-esc="doc.partner_id.zip"/> <span t-if="doc.partner_id.city">, <t t-esc="doc.partner_id.city"/></span><br/></span>
+                                <span><span t-if="doc.partner_id.state_id"><t t-esc="doc.partner_id.state_id.name"/> ,</span> <span t-if="doc.partner_id.country_id"> <t t-esc="doc.partner_id.country_id.name"/></span><br/></span>
+                            </div>
+<!--                            <div t-field="doc.partner_id"-->
+<!--                                 t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>-->
+                        </td>
+                        <td style="width: 40%;">
+                            <strong>From:</strong>
+                            <br/>
+                            <div>
+                                Mourad Zoulamian
+                                <br/>
+                                MEDAX Managing Director
+                                <br/>
+                                Tel.: +974 4038 0042 | 5526 7116
+                                <br/>
+                                P.O.Box: 37159, Muntazah
+                                <br/>
+                                Doha, State of Qatar
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <div>
+                    <h5>
+                        <b>
+                            <u>Subject: Cherry Beans Cafe - Events Counter</u>
+                        </b>
+                    </h5>
+                </div>
+                <!--                <br/>-->
+                <!--                <div>-->
+                <!--                    <p>Dear <span t-field="doc.partner_id.name"/>,</p>-->
+                <!--                    <p>In reference to your inquiry on the subject, we would like to offer you our best price for the below items:</p>-->
+                <!--                </div><br/>-->
+
+                <table class="table table-sm o_main_table table-bordered">
+                    <thead>
+                        <tr>
+                            <!-- TODO: remove in master -->
+                            <t t-set="colspan" t-value="5"/>
+                            <t t-set="count" t-value="1"/>
+                            <th class="text-center"></th>
+                            <th class="text-center">Description</th>
+                            <th class="text-center">Qty</th>
+                            <th class="text-center">U/P QAR</th>
+                            <th t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
+                                <span>Disc.(%)</span>
+                                <!-- TODO: remove in master -->
+                                <t t-set="colspan" t-value="colspan+1"/>
+                            </th>
+                            <th class="text-center">Taxes</th>
+                            <th class="text-right">
+                                <t groups="account.group_show_line_subtotals_tax_excluded">T/P QAR</t>
+                                <t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="sale_tbody">
+
+                        <t t-set="current_subtotal" t-value="0"/>
+
+                        <t t-foreach="doc.order_line" t-as="line">
+
+                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"
+                               groups="account.group_show_line_subtotals_tax_excluded"/>
+                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_total"
+                               groups="account.group_show_line_subtotals_tax_included"/>
+
+                            <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                <t t-if="not line.display_type">
+                                    <td>
+                                        <t t-esc="count"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="line.product_uom_qty"/>
+                                        <span t-field="line.product_uom" groups="uom.group_uom"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="line.price_unit"/>
+                                    </td>
+                                    <td t-if="display_discount" class="text-right"
+                                        groups="sale.group_discount_per_so_line">
+                                        <span t-field="line.discount"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
+                                    </td>
+                                    <td class="text-right o_price_total">
+                                        <span t-field="line.price_subtotal"
+                                              groups="account.group_show_line_subtotals_tax_excluded"/>
+                                        <span t-field="line.price_total"
+                                              groups="account.group_show_line_subtotals_tax_included"/>
+                                    </td>
+                                    <t t-set="count" t-value="count+1"/>
+                                </t>
+                                <t t-if="line.display_type == 'line_section'">
+                                    <td colspan="99">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <t t-set="current_section" t-value="line"/>
+                                    <t t-set="current_subtotal" t-value="0"/>
+                                </t>
+                                <t t-if="line.display_type == 'line_note'">
+                                    <td colspan="99">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                </t>
+                            </tr>
+
+                            <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section')">
+                                <tr class="is-subtotal text-right">
+                                    <td colspan="99">
+                                        <strong class="mr16">Subtotal</strong>
+                                        <span
+                                                t-esc="current_subtotal"
+                                                t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'
+                                        />
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div id="total" class="row" name="total">
+                        <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                            <table class="table table-sm table-bordered">
+<!--                                <tr class="o_subtotal" style="">-->
+<!--                                    <td>-->
+<!--                                        <strong>Subtotal</strong>-->
+<!--                                    </td>-->
+<!--                                    <td class="text-right">-->
+<!--                                        <span t-field="doc.amount_untaxed"/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <t t-foreach="doc.amount_by_group" t-as="amount_by_group">-->
+<!--                                    <tr style="">-->
+<!--                                        <t t-if="amount_by_group[5] == 1 and doc.amount_untaxed == amount_by_group[2]">-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="amount_by_group[0]"/>-->
+<!--                                                <span>&amp;nbsp;<span>on</span>&amp;nbsp;-->
+<!--                                                    <t t-esc="amount_by_group[2]"-->
+<!--                                                       t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>-->
+<!--                                                </span>-->
+<!--                                            </td>-->
+<!--                                            <td class="text-right o_price_total">-->
+<!--                                                <span t-esc="amount_by_group[1]"-->
+<!--                                                      t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>-->
+<!--                                            </td>-->
+<!--                                        </t>-->
+<!--                                        <t t-else="">-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="amount_by_group[0]"/>-->
+<!--                                            </td>-->
+<!--                                            <td class="text-right o_price_total">-->
+<!--                                                <span t-esc="amount_by_group[1]"-->
+<!--                                                      t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>-->
+<!--                                            </td>-->
+<!--                                        </t>-->
+<!--                                    </tr>-->
+<!--                                </t>-->
+<!--                                <tr class=" o_total">-->
+                                <tr class="" style="background:#F5F5F5">
+                                    <td>
+                                        <strong>QAR</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="doc.amount_total"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div>
+                                        <span><strong>Total Amount in Words:<span t-field="doc.num_word"/></strong></span><br/><br/>
+                    <span t-if="doc.payment_term_id">
+                        <u>Payment Terms:</u>
+                        <span t-field="doc.payment_term_id.name"/>
+                    </span>
+                    <br/>
+                </div>
+<!--                <br/>-->
+<!--                <div>-->
+<!--                    <p>We hope the above prices will meet your favourable consideration. If you need further information-->
+<!--                        or clarification please don’t hesitate to contact us directly.-->
+<!--                    </p>-->
+<!--                </div>-->
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 60%;text-align: left;">
+                            Mourad Zoulamian
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            ___________________________
+                            <br/>
+                            Managing Director
+                        </td>
+                        <td style="width: 40%;text-align: right;">
+                            Received by:
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            (Name, Date, Signature &amp; Stamp)
+                        </td>
+                    </tr>
+                </table>
+<!--                <br/>-->
+<!--                <p style="page-break-after:always;"/>-->
+<!--                <div>-->
+<!--                    <p>-->
+<!--                        <u>Terms &amp; Conditions:</u>-->
+<!--                    </p>-->
+<!--                    <ul>-->
+<!--                        <li>Order placements will be subject to our first receiving a local purchase order along with-->
+<!--                            confirmation of payment or cheque.-->
+<!--                        </li>-->
+<!--                        <li>This quotation is based upon and subject to the availability of resources at the time of-->
+<!--                            receiving order.-->
+<!--                        </li>-->
+<!--                        <li>This quotation is based upon and subject to the availability of resources at the time of-->
+<!--                            receiving order.-->
+<!--                        </li>-->
+<!--                        <li>Our products and accessories are covered under the manufacturer’s standard warranty-->
+<!--                            clause.-->
+<!--                        </li>-->
+<!--                        <li>All permissions/ entry passes, for access to the site, have to be arranged and paid for by-->
+<!--                            the client.-->
+<!--                        </li>-->
+<!--                        <li>All materials, fittings and accessories supplied by others or shall be charged separately at-->
+<!--                            an additional cost.-->
+<!--                        </li>-->
+<!--                        <li>Our scope of work is limited to the scope specified in the description, BMS, DDC,-->
+<!--                            Interfacing are excluded from our scope.-->
+<!--                        </li>-->
+<!--                        <li>This offer is valid for the supply of quantities, item code and description mentioned in our-->
+<!--                            quote, as per sample submitted and approved by the person in charge. For any variations we-->
+<!--                            reserve the right to adjust our price.-->
+<!--                        </li>-->
+<!--                        <li>All prices are as per current foreign currency ($, €, etc.) value status &amp; any-->
+<!--                            fluctuation in the currency before receiving a workable order would be charged as per-->
+<!--                            actual.-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+            </div>
+        </t>
+    </template>
+
+    <template id="sale.report_saleorder">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="madex_custom_reports.sale_report_medax_template" t-lang="doc.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>

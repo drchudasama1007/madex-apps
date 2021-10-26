@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="task_deadline_mail_template" model="mail.template">
+        <field name="name">Task Deadline Mail Template</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="subject">Task Deadline Notification</field>
+        <field name="email_to" >${object.user_id.email}</field>
+        <field name="body_html"><![CDATA[
+            <p>
+                Today is the last day for your Task <b>${object.name}</b>. Please Check.
+            </p>
+        ]]>
+        </field>
+    </record>
+
+    <record id="project_deadline_mail_template" model="mail.template">
+        <field name="name">Project Deadline Mail Template</field>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="subject">Project Deadline Notification</field>
+        <field name="email_to" >${object.user_id.email}</field>
+        <field name="body_html"><![CDATA[
+            <p>
+                Today is the last day for your Project <b>${object.name}</b>. Please Check.
+            </p>
+        ]]>
+        </field>
+    </record>
+
+    <record id="product_deadline_mail_template" model="mail.template">
+        <field name="name">Product Deadline Mail Template</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="subject">Product Deadline Notification</field>
+        <field name="body_html"><![CDATA[
+        ]]>
+        </field>
+    </record>
+
+</odoo>

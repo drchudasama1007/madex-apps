@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+
+        <record id="dashboard_hr_leave" model="ir.ui.view">
+            <field name="name">hr.leave.form</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='request_date_from']" position="before">
+                    <field name="department_id" options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+<!--                <xpath expr="//field[@name='department_id']" position="after">-->
+<!--                    <field name="depart_id"/>-->
+<!--                </xpath>-->
+                <xpath expr="//button[@name='action_refuse']" position="replace">
+                   <button string="Discarded" name="action_refuse" type="object"
+                            attrs="{'invisible': ['|', ('can_approve', '=', False), ('state', '=', ('refuse'))]}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

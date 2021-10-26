@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="CustomDashboardMain">
+        <div class="oh_dashboards">
+            <div class="container-fluid o_hr_dashboard">
+            </div>
+        </div>
+    </t>
+    <t t-name="LoginEmployeeDetails">
+    </t>
+    <t t-name="ManagerDashboard">
+    </t>
+    <t t-name="EmployeeDashboard">
+        <div class="hr_dash col-md-12 col-12">
+            <div class="row">
+                <div class="col-md-3 col-6 mt8 my_leave_request" style="curse">
+                    <div class="row pt24 pb24" style="background:#efad4f;border-radius: 5px;margin-left: -7px;">
+                        <div class="col-md-3">
+                            <i class="fa fa-calendar text-white" style="font-size: 60px;"/>
+                        </div>
+                        <div class="col-md-9 text-right">
+                            <p class="text-white font-weight-bold mb0" style="font-size: 22px;">
+                                <t t-esc="widget.employee_data.my_leave_request"/>
+                            </p>
+                            <p class="text-white font-weight-bold">
+                                My Leave Request
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mt8 request_sale_orders">
+                    <div class="row pt24 pb24" style="background:#367bb7;border-radius: 5px;margin-left: -7px;">
+                        <div class="col-md-3">
+                            <i class="fa fa-shopping-cart text-white" style="font-size: 60px;"/>
+                        </div>
+                        <div class="col-md-9 text-right">
+                            <p class="text-white font-weight-bold mb0" style="font-size: 22px;">
+                                <t t-esc="widget.employee_data.request_sale_orders"/>
+                            </p>
+                            <p class="text-white font-weight-bold">
+                                Requested Sale Orders
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mt8 request_contacts">
+                    <div class="row pt24 pb24" style="background:#5db75d;border-radius: 5px;margin-left: -7px;">
+                        <div class="col-md-3">
+                            <i class="fa fa-user-circle-o text-white" style="font-size: 60px;"/>
+                        </div>
+                        <div class="col-md-9 text-right">
+                            <p class="text-white font-weight-bold mb0" style="font-size: 22px;">
+                                <t t-esc="widget.employee_data.request_contacts"/>
+                            </p>
+                            <p class="text-white font-weight-bold">
+                                Requested Contacts
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mt8 request_invoices">
+                <div class="row pt24 pb24" style="background:#efad4f;border-radius: 5px;margin-left: -7px;margin-right: -7px;">
+                    <div class="col-md-3">
+                        <i class="fa fa-money text-white" style="font-size: 60px;"/>
+                    </div>
+                    <div class="col-md-9 text-right">
+                        <p class="text-white font-weight-bold mb0" style="font-size: 22px;">
+                            <t t-esc="widget.employee_data.request_invoices"/>
+                        </p>
+                        <p class="text-white font-weight-bold">
+                            Invoices
+                        </p>
+                    </div>
+                </div>
+            </div>
+                <div class="col-md-3 col-6 mt8 request_planning">
+                    <div class="row pt24 pb24" style="background:#d95551;border-radius: 5px;margin-left: -7px;">
+                        <div class="col-md-3">
+                            <i class="fa fa fa-pie-chart text-white" style="font-size: 60px;"/>
+                        </div>
+                        <div class="col-md-9 text-right">
+                            <p class="text-white font-weight-bold mb0" style="font-size: 22px;">
+                                <t t-esc="widget.employee_data.request_planning"/>
+                            </p>
+                            <p class="text-white font-weight-bold">
+                                My Plannings
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mt8 request_borrowings">
+                    <div class="row pt24 pb24" style="background:#6a746b;border-radius: 5px;margin-left: -7px;">
+                        <div class="col-md-3">
+                            <i class="fa fa-pencil-square-o text-white" style="font-size: 60px;"/>
+                        </div>
+                        <div class="col-md-9 text-right">
+                            <p class="text-white font-weight-bold mb0" style="font-size: 22px;">
+                                <t t-esc="widget.employee_data.request_borrowings"/>
+                            </p>
+                            <p class="text-white font-weight-bold">
+                                Borrowings
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mt8 request_documents">
+                    <div class="row pt24 pb24" style="background:deeppink;border-radius: 5px;margin-left: -7px;">
+                        <div class="col-md-3">
+                            <i class="fa fa-folder-open text-white" style="font-size: 60px;"/>
+                        </div>
+                        <div class="col-md-9 text-right">
+                            <p class="text-white font-weight-bold mb0" style="font-size: 22px;">
+                                 <t t-esc="widget.employee_data.request_documents"/>
+                            </p>
+                            <p class="text-white font-weight-bold">
+                                Documents
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mt8 request_purchases">
+                    <div class="row pt24 pb24" style="background:#d95551;border-radius: 5px;margin-left: -7px;margin-right: -7px;">
+                        <div class="col-md-3">
+                            <i class="fa fa-truck text-white" style="font-size: 60px;"/>
+                        </div>
+                        <div class="col-md-9 text-right">
+                            <p class="text-white font-weight-bold mb0" style="font-size: 22px;">
+                               <t t-esc="widget.employee_data.request_purchases"/>
+                            </p>
+                            <p class="text-white font-weight-bold">
+                                Purchase Orders
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mt8 request_projects">
+                    <div class="row pt24 pb24" style="background:#fec236;border-radius: 5px;margin-left: -7px;">
+                        <div class="col-md-3">
+                            <i class="fa fa-tasks text-white" style="font-size: 60px;"/>
+                        </div>
+                        <div class="col-md-9 text-right">
+                            <p class="text-white font-weight-bold mb0" style="font-size: 22px;">
+                                <t t-esc="widget.employee_data.request_projects"/>
+                            </p>
+                            <p class="text-white font-weight-bold">
+                                Projects
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mt8 d-none">
+                    <div class="row pt24 pb24" style="background:#d95551;border-radius: 5px;margin-left: -7px;">
+                        <div class="col-md-3">
+                            <i class="fa fa-exclamation-circle text-white" style="font-size: 60px;"/>
+                        </div>
+                        <div class="col-md-9 text-right">
+                            <p class="text-white font-weight-bold mb0" style="font-size: 22px;">
+                                2
+                            </p>
+                            <p class="text-white font-weight-bold">
+                                My Frictions
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mt8 d-none">
+                    <div class="row pt24 pb24" style="background:#d95551;border-radius: 5px;margin-left: -7px;">
+                        <div class="col-md-3">
+                            <i class="fa fa-exclamation-triangle text-white" style="font-size: 60px;"/>
+                        </div>
+                        <div class="col-md-9 text-right">
+                            <p class="text-white font-weight-bold mb0" style="font-size: 22px;">
+                                0
+                            </p>
+                            <p class="text-white font-weight-bold">
+                                My Risks
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </t>
+
+    <t t-name="EmployeeWarning">
+        <div>
+            <p>Error : Could not find employee linked to user</p>
+            <p>Please contact system admin for the setup</p>
+        </div>
+    </t>
+
+</templates>

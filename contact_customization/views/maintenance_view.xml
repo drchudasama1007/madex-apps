@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="maintenance_equipment_form_view_extended" model="ir.ui.view">
+        <field name="name">maintenance.equipment.form.view.extended</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field name="arch" type="xml">
+            <field name="equipment_assign_to" position="before">
+                <field name="equipment_brand"/>
+                <field name="tool_equipment_assign_to"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

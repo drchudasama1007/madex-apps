@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_partner_tree_view_extended" model="ir.ui.view">
+        <field name="name">res.partner.tree.view.extended</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="phone" position="before">
+                <field name='mobile'/>
+            </field>
+        </field>
+    </record>
+
+    <record id="res_partner_form_view_extended" model="ir.ui.view">
+        <field name="name">res.partner.form.view.extended</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group[1]/group[1]" position="replace">
+                <group>
+                    <group>
+                        <field name="type" attrs="{'invisible': [('parent_id','=', False)]}"
+                               groups="base.group_no_one"/>
+                    </group>
+                    <group>
+                        <div class="o_address_format">
+                            <div attrs="{'invisible': ['|', ('parent_id', '=', False), ('type', '!=', 'contact')]}"
+                                 class="oe_edit_only">
+                                <b>Company Address:</b>
+                            </div>
+                            <field name="street" placeholder="Street..." class="o_address_street"
+                                   attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                            <field name="street2" placeholder="Street 2..." class="o_address_street"
+                                   attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                            <field name="city" placeholder="City" class="o_address_city"
+                                   attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                            <field name="state_id" class="o_address_state" placeholder="State"
+                                   options="{&quot;no_open&quot;: True}"
+                                   attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"
+                                   context="{'country_id': country_id, 'zip': zip}"/>
+                            <field name="zip" placeholder="ZIP" class="o_address_zip"
+                                   attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                            <field name="country_id" placeholder="Country" class="o_address_country"
+                                   options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"
+                                   attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                        </div>
+                        <field name="vat" placeholder="e.g. BE0477472701"
+                               attrs="{'readonly': [('parent_id','!=',False)]}"/>
+                    </group>
+                </group>
+            </xpath>
+            <div class="o_address_format" position="replace">
+                <div style="margin-top:-31px">
+                    <strong>Address</strong>
+                    <br/>
+                    <table style="width: 520px;">
+                        <tr>
+                            <td style="width: 25.33%;">
+                                <b>Street Name &amp; No.</b>
+                            </td>
+                            <td>
+                            <field name="street" placeholder="Street..." class="o_address_street" nolabel="1"/>
+
+                            </td>
+                            <td>
+                                <field name="street_number" placeholder="Street number" lass="o_address_street"/>
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25.33%;">
+                                <b>Zone Name &amp; No.</b>
+                            </td>
+                            <td>
+                                <field name="zone" placeholder="Zone" class="o_address_city" nolabel="1"/>
+                            </td>
+
+                            <td>
+                                <field name="zone_number" placeholder="Zone No." class="o_address_city" nolabel="1"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 25.33%;">
+                                <b>Building Name &amp; No.</b>
+                            </td>
+                            <td>
+                                <field name='building_name' placeholder="Building Name" class="o_address_city"
+                                       nolabel="1"/>
+                            </td>
+
+                            <td>
+                                <field name='building_number' placeholder="Building No." class="o_address_city"
+                                       nolabel="1"/>
+                            </td>
+
+                        </tr>
+                        <tr>
+<!--                            <td style="width: 25.33%;">-->
+                            <td style="width: 20%;">
+                                <b>Unit No.</b>
+                            </td>
+                            <td style="width: 20%;">
+                                <field name='unit_number' placeholder="Unit No." class="o_address_city" nolabel="1"/>
+                            </td>
+
+                            <td style="width: 20%;">
+                                <b>Floor No.</b>
+                            </td>
+                            <td style="width: 20%;">
+                                <field name='floor_number' placeholder="Floor No." class="o_address_city" nolabel="1"/>
+                            </td>
+                            <td style="width: 20%;">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td style="width: 25.33%;">
+                                <b>City</b>
+                            </td>
+                            <td>
+                                <field name="city" placeholder="City" nolabel="1"/>
+                            </td>
+                            <td>
+                                <b>State</b>
+                            </td>
+                            <td>
+                                <field name="state_id" nolabel="1" class="o_address_state" placeholder="State"
+                                       options='{"no_open": True}' context="{'country_id': country_id, 'zip': zip}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 25.33%;">
+                                <b>Country</b>
+                            </td>
+                            <td>
+                                <field name='country_id' placeholder="Country" class="o_address_city" nolabel="1"/>
+                            </td>
+                            <td>
+                                <b>Postal code</b>
+                            </td>
+                            <td>
+                                <field name='zip' placeholder="Postal Code" class="o_address_city" nolabel="1"/>
+                            </td>
+
+                        </tr>
+                        <tr attrs="{'invisible':[('company_type','=','company')]}">
+                            <td style="width: 25.33%;">
+                                <b>Expiry Date</b>
+                            </td>
+
+                            <td>
+                                <field name="id_expire_date" placeholder="ID expiry date" nolabel="1"/>
+                            </td>
+                            <td>
+                                <b>ID Number</b>
+                            </td>
+
+                            <td>
+                                <field name="id_number" placeholder="ID number..." nolabel="1"/>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <field name="street2" invisible="1" placeholder="Street 2..." class="o_address_city"/>
+                    <field name="zip" invisible="1" placeholder="ZIP" class="o_address_zip"/>
+                    <field name="country_id" invisible="1" placeholder="Country" class="o_address_country"
+                           options='{"no_open": True, "no_create": True}'/>
+                </div>
+            </div>
+            <field name="lang" position="after">
+                <field name="is_sponsor"/>
+                <field name="sponsor_id"/>
+            </field>
+            <field name="phone" position="replace">
+                <field name="country_code" nolabel="1" placeholder="Country Code"/>
+                <field name="phone_area_code" nolabel="1" placeholder="Area Code"/>
+                <field name="phone" placeholder="Phone"/>
+            </field>
+            <field name="mobile" position="replace">
+                <field name="country_code" nolabel="1" placeholder="Country Code"/>
+                <field name="area_code" nolabel="1" placeholder="Area Code"/>
+                <field name="mobile" placeholder="mobile"/>
+            </field>
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_sned_approval_customer" type="object" string="Submit" class="oe_highlight"
+                            attrs="{'invisible': [('state', 'in', ['approved', 'waiting_approval'])]}"/>
+                    <button name="action_approve_customer" type="object" string="Approve" class="oe_highlight"
+                            attrs="{'invisible': [('state', 'in', ['approved', 'draft'])]}"/>
+                    <button name="action_draft_customer" type="object" string="Reset To Draft"
+                            attrs="{'invisible': [('state', 'in', ['draft', 'waiting_approval'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,waiting_approval,approved"/>
+                </header>
+            </xpath>
+            <field name="vat" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <xpath expr="//notebook/page[1]/field[@name='child_ids']/form/sheet" position="replace">
+                <sheet>
+
+                    <field name="type" required="1" widget="radio" options="{'horizontal': true}"/>
+                    <field name="parent_id" invisible="1"/>
+                    <group>
+                        <group>
+                            <div class="o_address_format">
+                                <strong>Address</strong>
+                                <br/>
+                                <table style="width: 450px;">
+                                    <tr>
+                                        <td>
+                                            <b>Street</b>
+                                        </td>
+                                        <td>
+                                            <field name="street" placeholder="Street..." class="o_address_street"
+                                                   nolabel="1"/>
+                                        </td>
+                                        <td>
+                                            <b>Zone</b>
+                                        </td>
+                                        <td>
+                                            <field name="zone" placeholder="Zone" class="o_address_city" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Bldg No</b>
+                                        </td>
+                                        <td>
+                                            <field name='number' placeholder="Building No." class="o_address_city"
+                                                   nolabel="1"/>
+                                        </td>
+                                        <td>
+                                            <b>Unit No</b>
+                                        </td>
+                                        <td>
+                                            <field name='unit_number' placeholder="Unit No." class="o_address_city"
+                                                   nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>City</b>
+                                        </td>
+                                        <td>
+                                            <field name="city" placeholder="City" nolabel="1"/>
+                                        </td>
+                                        <td>
+                                            <b>State</b>
+                                        </td>
+                                        <td>
+                                            <field name="state_id" nolabel="1" class="o_address_state"
+                                                   placeholder="State" options='{"no_open": True}'/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Country</b>
+                                        </td>
+                                        <td>
+                                            <field name='country_id' placeholder="Country" class="o_address_city"
+                                                   nolabel="1"/>
+                                        </td>
+                                        <td>
+                                            <b>Postal code</b>
+                                        </td>
+                                        <td>
+                                            <field name='zip' placeholder="Postal Code" class="o_address_city"
+                                                   nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>ID Number</b>
+                                        </td>
+                                        <td colspan="4">
+                                            <field name="id_number" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <field name="street2" invisible="1" placeholder="Street 2..." class="o_address_city"/>
+                                <field name="zip" invisible="1" placeholder="ZIP" class="o_address_zip"/>
+                                <field name="country_id" invisible="1" placeholder="Country" class="o_address_country"
+                                       options='{"no_open": True, "no_create": True}'/>
+                            </div>
+                        </group>
+
+                        <group>
+                            <group colspan="2">
+                                <field name="function" placeholder="e.g. Sales Director"
+                                       attrs="{'invisible': [('is_company','=', True)]}"/>
+                                <field name="is_company" invisible="1"/>
+                            </group>
+                            <group colspan="4">
+                                <label for="phone"/>
+                                <div class="o_row">
+                                    <field name="country_code" nolabel="1" placeholder="Country Code"/>
+                                    <field name="phone" placeholder="Phone"/>
+                                </div>
+                                <label for="mobile"/>
+                                <div class="o_row">
+                                    <field name="area_code" nolabel="1" placeholder="Area Code" style="width:10%%"/>
+                                    <field name="country_code" nolabel="1" placeholder="Country Code"/>
+                                    <field name="mobile" placeholder="Phone"/>
+                                </div>
+                            </group>
+                            <group colspan="2">
+                                <field name="mobile" widget="phone"/>
+                                <field name="user_ids" invisible="1"/>
+                                <field name="email" widget="email" context="{'gravatar_image': True}"
+                                       attrs="{'required': [('user_ids','!=', [])]}"/>
+                                <field name="website" widget="url" placeholder="e.g. https://www.odoo.com"/>
+                                <field name="title" options="{&quot;no_open&quot;: True}"
+                                       attrs="{'invisible': [('is_company', '=', True)]}"/>
+                                <field name="lang"/>
+                                <field name="category_id" widget="many2many_tags"
+                                       options="{'color_field': 'color', 'no_create_edit': True}"
+                                       placeholder="Tags..."/>
+                            </group>
+                        </group>
+                    </group>
+                </sheet>
+            </xpath>
+<!--            <xpath expr="//field[@name='property_payment_term_id']" position="replace">-->
+<!--                <field name="property_payment_term_id"></field>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='property_supplier_payment_term_id']" position="replace">-->
+<!--                <field name="property_supplier_payment_term_id" string="Payment Terms"></field>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='industry_id']" position="replace">-->
+<!--                <field name="industry_id"></field>-->
+<!--            </xpath>-->
+        </field>
+    </record>
+
+     <record id="contact_view_form_inherited" model="ir.ui.view">
+        <field name="name">contact.view.form.inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook" position='inside'>
+                <page string="Company registry" attrs="{'invisible':[('company_type','=','person')]}">
+                  <group>
+                    <group>
+                      <field name="compny_id"/>
+                      <field name="issue_date1"/>
+                      <field name="expire_date1"/>
+                      <field name="printed_date1"/>
+                      <field name="pdf3"/>
+                    </group>
+                    <group>
+                      <field name="trade_lic"/>
+                      <field name="issue_date2"/>
+                      <field name="expire_date2"/>
+                      <field name="printed_date2"/>
+                      <field name="pdf4"/>
+                    </group>
+                    <group>
+                      <field name="tax_card"/>
+                      <field name="issue_date3"/>
+                      <field name="expire_date3"/>
+                      <field name="printed_date3"/>
+                      <field name="pdf5"/>
+                    </group>
+                  </group>
+                </page>
+
+                <page string="Corporate Documents" attrs="{'invisible':[('company_type','=','person')]}">
+                  <group>
+                    <group>
+                     <field name="capital"/>
+                      <field name="comp_type"/>
+                      <field name="artical_of_assoc"/>
+                      <field name="attested_date"/>
+                      <field name="issue_date4"/>
+                      <field name="pdf1"/>
+                    </group>
+                    <group>
+                      <field name="co_regis_number"/>
+                      <field name="issue_date5"/>
+                      <field name="expire_date4"/>
+                      <field name="printed_date4"/>
+                      <field name="pdf2"/>
+                    </group>
+                  </group>
+                </page>
+
+                <page string="Signatories" attrs="{'invisible':[('company_type','=','person')]}">
+
+                  <group>
+                    <group>
+                      <field name="signatory_id1"/>
+                      <field name="name1"/>
+                      <field name="expire_date5"/>
+                      <field name="pdf6"/>
+                      <field name="is_sponsor1"/>
+                    </group>
+                    <group>
+                      <field name="signatory_id2"/>
+                      <field name="name2"/>
+                      <field name="expire_date6"/>
+                      <field name="pdf7"/>
+                      <field name="is_sponsor2"/>
+                    </group>
+                  </group>
+
+                  <group>
+                    <group>
+                      <field name="signatory_id3"/>
+                      <field name="name3"/>
+                      <field name="expire_date7"/>
+                      <field name="pdf8"/>
+                      <field name="is_sponsor3"/>
+                    </group>
+                    <group>
+                      <field name="signatory_id4"/>
+                      <field name="name4"/>
+                      <field name="expire_date8"/>
+                      <field name="pdf9"/>
+                      <field name="is_sponsor4"/>
+                    </group>
+                    <group>
+                      <field name="signatory_id5"/>
+                      <field name="name5"/>
+                      <field name="expire_date9"/>
+                      <field name="pdf11"/>
+                      <field name="is_sponsor5"/>
+                    </group>
+                  </group>
+
+                </page>
+
+                <page string="Shares" attrs="{'invisible':[('company_type','=','person')]}">
+                    <group>
+                        <group>
+                            <field name="share_holder"/>
+                            <field name="ID_CR_numer"/>
+                            <field name="share_holder_2"/>
+                            <field name="ID_CR_numer_2"/>
+                            <field name="share_holder_3"/>
+                            <field name="ID_CR_numer_3"/>
+                            <field name="share_holder_4"/>
+                            <field name="ID_CR_numer_4"/>
+                            <field name="share_holder_5"/>
+                            <field name="ID_CR_numer_5"/>
+                        </group>
+                        <group>
+                            <field name="share_percentage"/>
+                            <field name="shares_attachment"/>
+                            <field name="share_percentage_2"/>
+                            <field name="shares_attachment_2"/>
+                            <field name="share_percentage_3"/>
+                            <field name="shares_attachment_3"/>
+                            <field name="share_percentage_4"/>
+                            <field name="shares_attachment_4"/>
+                            <field name="share_percentage_5"/>
+                            <field name="shares_attachment_5"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_partner_property_from_extended" model="ir.ui.view">
+        <field name="name">account.partner.property.from.extended</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bank_ids']/tree" position="replace">
+                <tree editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="bank_id"/>
+                    <field name="acc_holder_name"/>
+                    <field name="acc_number"/>
+                    <field name="iban"/>
+                    <field name="swift_bic"/>
+                </tree>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_bank_tree_extended" model="ir.ui.view">
+        <field name="name">res.partner.bank.tree.extended</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="acc_holder_name"/>
+                    <field name="iban"/>
+                    <field name="swift_bic"/>
+            </xpath>
+        </field>
+    </record>
+
+        <!-- Res Partner Tree View Inherit -->
+    <record id="res_partner_tree_inherit" model="ir.ui.view">
+        <field name="name">res.partner.tree.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="field[@name='user_id']"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="field[@name='country_id']"  position="after">
+                <field name="state"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
