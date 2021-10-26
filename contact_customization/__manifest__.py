@@ -16,6 +16,7 @@ Contact Customization
         # 'maintenance',
         'project',
         'hr',
+        'analytic',
     ],
     'data': [
         'security/ir.model.access.csv',

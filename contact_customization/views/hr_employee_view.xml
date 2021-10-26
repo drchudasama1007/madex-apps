@@ -6,6 +6,12 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" type="object" name="action_open_analytic_account"
+                        icon="fa-usd">
+                    <field string="Analytic Account" name="analytic_account_count" widget="statinfo"/>
+                </button>
+            </div>
              <xpath expr="//page[@name='hr_settings']"  position="after">
                 <page name="costs" string="Costs">
                     <group>
@@ -25,5 +31,19 @@
             </xpath>
         </field>
     </record>
+
+        <record model="ir.ui.view" id="account_analytic_account_form_view">
+        <field name="name">account.analytic.account.form.view</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='partner_id']"  position="after">
+                 <field name="employee_id"/>
+             </xpath>
+            <xpath expr="//field[@name='partner_id']"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+        </record>
 
 </odoo>

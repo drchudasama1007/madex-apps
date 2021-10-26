@@ -23,6 +23,15 @@ class HREmployee(models.Model):
     transportation_costs = fields.Float("Transportation costs")
     working_hour = fields.Integer("Working hrs per month",default=192)
     worker_rate = fields.Float("Rate for worker", compute='_compute_worker_rate', store=True)
+    analytic_account_count = fields.Integer(compute='_analytic_account', string='Analytic Account', copy=False)
+
+    def _analytic_account(self):
+        for rec in self:
+            accounts = self.env['account.analytic.account'].search([('employee_id', '=', rec.id)])
+            if accounts:
+                rec.analytic_account_count = len(accounts)
+            else:
+                rec.analytic_account_count = 0
 
     @api.depends('aeroplan_tikit', 'visa_cost', 'monthly_rate', 'utility_expenses', 'cost_phone', 'transportation_costs', 'working_hour')
     def _compute_worker_rate(self):
@@ -35,3 +44,20 @@ class HREmployee(models.Model):
             else:
                 rec.worker_rate = 0
 
+    def action_open_analytic_account(self):
+        accounts = self.env['account.analytic.account'].search([('employee_id', '=', self.id)])
+        action = self.env.ref('analytic.action_account_analytic_account_form').read()[0]
+        if len(accounts) > 1:
+            action['domain'] = [('id', 'in', accounts.ids)]
+            action['context'] = {'default_employee_id': self.id}
+        elif len(accounts) == 1:
+            action['views'] = [(self.env.ref('analytic.view_account_analytic_account_form').id, 'form')]
+            action['res_id'] = accounts.ids[0]
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+        return action
+
+class AccountAnalyticAccount(models.Model):
+    _inherit = 'account.analytic.account'
+
+    employee_id = fields.Many2one('hr.employee', string='Employee')
