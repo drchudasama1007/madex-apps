@@ -25,6 +25,14 @@ class HREmployee(models.Model):
     worker_rate = fields.Float("Rate for worker", compute='_compute_worker_rate', store=True)
     analytic_account_count = fields.Integer(compute='_analytic_account', string='Analytic Account', copy=False)
 
+    @api.onchange('user_id')
+    def onchange_user_id(self):
+        if self.user_id.partner_id:
+            if self.user_id.partner_id.bank_ids:
+                self.write({
+                    'bank_account_id' : self.user_id.partner_id.bank_ids[0]
+                })
+
     def _analytic_account(self):
         for rec in self:
             accounts = self.env['account.analytic.account'].search([('employee_id', '=', rec.id)])

@@ -12,6 +12,9 @@
                     <field string="Analytic Account" name="analytic_account_count" widget="statinfo"/>
                 </button>
             </div>
+               <xpath expr="//field[@name='work_email']"  position="after">
+                <field name="user_partner_id" string="Contact"/>
+                 </xpath>
              <xpath expr="//page[@name='hr_settings']"  position="after">
                 <page name="costs" string="Costs">
                     <group>
